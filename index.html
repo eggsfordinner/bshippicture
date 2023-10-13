@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flask Textbox App</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Flask Textbox App</h1>
+    <form id="user-form">
+        <label for="user_input">Enter text:</label>
+        <input type="text" name="user_input" id="user_input" required>
+        <button type="button" onclick="submitForm()">Submit</button>
+    </form>
+    <br>
+    <h2>Output:</h2>
+    <p id="global_string"></p>
+
+    <script>
+        function updateGlobalString() {
+            $.get('/get_global_string', function(data) {
+                $('#global_string').text(data.global_string);
+            });
+        }
+        function submitForm() {
+            var user_input = $('#user_input').val();
+            $.post('/process', { user_input: user_input }, function(data) {
+                $('#output').text('Processing Request');
+            });
+        }
+
+        // Call the updateGlobalString function every second
+        setInterval(updateGlobalString, 1000);
+    </script>
+</body>
+</html>
